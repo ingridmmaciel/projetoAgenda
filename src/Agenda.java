@@ -10,7 +10,7 @@ import classes.Telefone;
 
 public class Agenda {
 
-    private static Long proximoId = 1L;  // Novo atributo para controlar os IDs
+    private static Long proximoId = 1L;
 
     public static void main(String[] args) throws IOException {
         ArrayList<Contato> agenda = new ArrayList<>();
@@ -63,7 +63,7 @@ public class Agenda {
                 String[] dados = linha.split(";");
                 if (dados.length >= 3) {
                     Contato contato = new Contato(
-                            Long.parseLong(dados[0]),  // Agora lê o ID como Long
+                            Long.parseLong(dados[0]),
                             dados[1],
                             dados[2]
                     );
@@ -75,7 +75,7 @@ public class Agenda {
                         }
                     }
                     agenda.add(contato);
-                    proximoId = Math.max(proximoId, contato.getId() + 1);  // Atualiza o próximo ID
+                    proximoId = Math.max(proximoId, contato.getId() + 1);
                 } else {
                     System.err.println("Erro: Linha mal formatada no arquivo.");
                 }
