@@ -107,24 +107,23 @@ public class Agenda {
         String nome, sobrenome, telefone, ddd;
 
         System.out.printf("\nInforme o nome do contato:\n");
-        ler.nextLine(); // Consumir a quebra de linha pendente
+        ler.nextLine();
         nome = ler.nextLine();
 
         System.out.printf("\nInforme o sobrenome do contato:\n");
         sobrenome = ler.nextLine();
 
-        // Verifica se o contato já existe na agenda
         if (contatoExiste(agenda, nome, sobrenome)) {
             System.out.println("Contato já existe na agenda.");
             return;
         }
 
-        Contato novoContato = new Contato(proximoId++, nome, sobrenome);  // Atribui e depois incrementa
+        Contato novoContato = new Contato(proximoId++, nome, sobrenome);
 
         System.out.println("Deseja adicionar telefone(s)? (s/n)");
         char resposta = ler.next().charAt(0);
 
-        ler.nextLine(); // Adicionado para consumir a quebra de linha
+        ler.nextLine();
 
         if (resposta == 's' || resposta == 'S') {
             while (true) {
@@ -139,10 +138,9 @@ public class Agenda {
                     System.out.printf("\nInforme o número do telefone do contato:\n");
                     telefone = ler.nextLine();
 
-                    // Verifica se o telefone já existe para este contato
                     if (telefoneExiste(novoContato.getTelefones(), ddd, telefone)) {
                         System.out.println("Telefone já cadastrado para este contato.");
-                        continue; // Pede o próximo telefone
+                        continue;
                     }
 
                     novoContato.adicionarTelefone(ddd, telefone);
@@ -212,7 +210,6 @@ public class Agenda {
                         contato.setSobrenome(novoSobrenome);
                         break;
                     case 3:
-                        // Caso 3 modificado para garantir que não é permitido armazenar contatos com telefones já cadastrados
                         System.out.println("Informe o DDD do telefone a ser editado:");
                         String dddEditar = ler.next();
                         System.out.println("Informe o número do telefone a ser editado:");
@@ -240,12 +237,10 @@ public class Agenda {
         }
     }
 
-    // Função auxiliar para verificar se um contato já existe na agenda
     private static boolean contatoExiste(ArrayList<Contato> agenda, String nome, String sobrenome) {
         return agenda.stream().anyMatch(c -> c.getNome().equalsIgnoreCase(nome) && c.getSobrenome().equalsIgnoreCase(sobrenome));
     }
 
-    // Função auxiliar para verificar se um telefone já existe para um contato
     private static boolean telefoneExiste(ArrayList<Telefone> telefones, String ddd, String numero) {
         return telefones.stream().anyMatch(t -> t.getDdd().equals(ddd) && t.getNumero().equals(numero));
     }

@@ -17,7 +17,6 @@ public class Contato {
         this.proximoTelefoneId = 1;
     }
 
-    // Modifique o método adicionarTelefone para usar o próximo ID de telefone
     public void adicionarTelefone(String ddd, String numero) {
         telefones.add(new Telefone(ddd, numero));
         proximoTelefoneId++;
@@ -48,12 +47,10 @@ public class Contato {
         return proximoTelefoneId;
     }
 
-    // Adicione o método setter para o próximo ID de telefone
     public void setProximoTelefoneId(int proximoTelefoneId) {
         this.proximoTelefoneId = proximoTelefoneId;
     }
 
-    // Adicione os métodos setters para o nome e sobrenome
     public void setNome(String nome) {
         this.nome = nome;
     }
