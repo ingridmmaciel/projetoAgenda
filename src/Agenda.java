@@ -184,20 +184,21 @@ public class Agenda {
 
     public static void editar(ArrayList<Contato> agenda, Scanner ler) {
         listar(agenda);
-
+    
         System.out.printf("\nInforme o ID do contato a ser editado:\n");
         long id = ler.nextLong();
-
+    
         if (id >= 0 && id < proximoId) {
             Contato contato = agenda.stream().filter(c -> c.getId() == id).findFirst().orElse(null);
-
+    
             if (contato != null) {
                 System.out.println("O que deseja editar?");
                 System.out.println("[1] Nome");
                 System.out.println("[2] Sobrenome");
-                System.out.println("[3] Telefone");
+                System.out.println("[3] Telefones");
+    
                 int opcaoEdicao = ler.nextInt();
-
+    
                 switch (opcaoEdicao) {
                     case 1:
                         System.out.println("Informe o novo nome:");
@@ -210,20 +211,28 @@ public class Agenda {
                         contato.setSobrenome(novoSobrenome);
                         break;
                     case 3:
-                        System.out.println("Informe o DDD do telefone a ser editado:");
-                        String dddEditar = ler.next();
-                        System.out.println("Informe o número do telefone a ser editado:");
-                        String numeroEditar = ler.next();
-
-                        if (telefoneExiste(contato.getTelefones(), dddEditar, numeroEditar)) {
-                            System.out.println("Telefone já cadastrado para este contato.");
-                        } else {
+                        listarTelefones(contato);
+    
+                        System.out.println("Informe o índice do telefone a ser editado:");
+                        int indiceTelefone = ler.nextInt();
+    
+                        if (indiceTelefone >= 0 && indiceTelefone < contato.getTelefones().size()) {
+                            Telefone telefoneEditar = contato.getTelefones().get(indiceTelefone);
+    
                             System.out.println("Informe o novo DDD do telefone:");
                             String novoDDD = ler.next();
                             System.out.println("Informe o novo número do telefone:");
                             String novoNumero = ler.next();
-                            contato.adicionarTelefone(novoDDD, novoNumero);
-                            System.out.println("Telefone editado com sucesso.");
+    
+                            if (telefoneExiste(contato.getTelefones(), novoDDD, novoNumero)) {
+                                System.out.println("Telefone já cadastrado para este contato.");
+                            } else {
+                                contato.removerTelefone(telefoneEditar.getDdd(), telefoneEditar.getNumero());
+                                contato.adicionarTelefone(novoDDD, novoNumero);
+                                System.out.println("Telefone editado com sucesso.");
+                            }
+                        } else {
+                            System.out.println("Índice de telefone inválido.");
                         }
                         break;
                     default:
@@ -236,6 +245,15 @@ public class Agenda {
             System.out.println("ID inválido.");
         }
     }
+    
+    private static void listarTelefones(Contato contato) {
+        System.out.println("Telefones do Contato:");
+        ArrayList<Telefone> telefones = contato.getTelefones();
+        for (int i = 0; i < telefones.size(); i++) {
+            System.out.printf("[%d] %s\n", i, telefones.get(i));
+        }
+    }
+    
 
     private static boolean contatoExiste(ArrayList<Contato> agenda, String nome, String sobrenome) {
         return agenda.stream().anyMatch(c -> c.getNome().equalsIgnoreCase(nome) && c.getSobrenome().equalsIgnoreCase(sobrenome));

@@ -22,6 +22,12 @@ public class Contato {
         proximoTelefoneId++;
     }
 
+    public void removerTelefone(String ddd, String numero) {
+        if (telefones != null) {
+            telefones.removeIf(t -> t.getDdd().equals(ddd) && t.getNumero().equals(numero));
+        }
+    }
+
     @Override
     public String toString() {
         return String.format("%s %s", nome, sobrenome);
